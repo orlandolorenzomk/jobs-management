@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layouts :: head">
+
+<body>
+<nav th:replace="layouts :: nav"></nav>
+
+<div class="container">
+    <h1 style="margin-top: 150px;">Add Interview</h1>
+    <br>
+
+    <!-- Add Recruiter Form -->
+    <form action="/interview/add" method="post">
+        <div class="form-group">
+            <label for="endClient">End Client:</label>
+            <input type="text" class="form-control" id="endClient" name="endClient" required>
+        </div>
+        <div class="form-group">
+            <label for="idRecruiter">Recruiter:</label>
+            <input type="text" class="form-control" id="idRecruiter" name="idRecruiter" required>
+        </div>
+        <div class="form-group">
+            <label for="interviewType">Interview Type:</label>
+            <input type="text" class="form-control" id="interviewType" name="interviewType" required>
+        </div>
+        <div class="form-group">
+            <label for="platform">Platform:</label>
+            <input type="text" class="form-control" id="platform" name="platform">
+        </div>
+        <div class="form-group">
+            <label for="interviewDate">Date</label>
+            <input type="date" class="form-control" id="interviewDate" name="interviewDate">
+        </div>
+        <div class="notes">
+            <label for="notes">Notes:</label>
+            <textarea class="form-control" id="notes" name="notes" rows="5" required></textarea>
+        </div>
+        <br>
+        <button type="submit" class="btn btn-primary">Add</button>
+    </form>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/js/bootstrap.bundle.min.js" integrity="sha512-7Db+t9lwtT5trI3qtnQ9G12+JtDMPq0k9czYfJnCfhElPCSPC1rN2y+mDuYXh/hbVUM7YnS2Ggjx7pJbcQSN5Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layouts :: head">
+<body>
+<nav th:replace="layouts :: nav"></nav>
+
+<div class="container">
+    <h1 style="margin-top: 150px;">Interviews</h1>
+
+    <a style="margin-bottom: 25px; margin-top: 25px" th:href="|@{/interview/insert}|" class="btn btn-primary">Add Interview</a>
+
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">End Client</th>
+            <th scope="col">Recruiter</th>
+            <th scope="col">Interview Type</th>
+            <th scope="col">Platform</th>
+            <th scope="col">Date</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="interview : ${interviewList}">
+            <th scope="row" th:text="${interview.id}"></th>
+            <td th:text="${interview.endClient}"></td>
+            <td th:text="${interview.recruiter.fullName}"></td>
+            <td th:text="${interview.interviewType}"></td>
+            <td th:text="${interview.platform}"></td>
+            <td th:text="${interview.interviewDate}"></td>
+            <td>
+                <a th:href="@{/interview/update/{id}(id=${interview.id})}" class="btn btn-success">Update</a>
+            </td>
+            <td>
+                <a th:href="@{/interview/delete/{id}(id=${interview.id})}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this interview?')">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/js/bootstrap.bundle.min.js" integrity="sha512-7Db+t9lwtT5trI3qtnQ9G12+JtDMPq0k9czYfJnCfhElPCSPC1rN2y+mDuYXh/hbVUM7YnS2Ggjx7pJbcQSN5Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</body>
+</html>
