@@ -11,7 +11,7 @@ import java.util.Optional;
 @Repository
 public interface InterviewRepository extends JpaRepository<Interview, Integer> {
 
-    @Query(value = "SELECT * FROM interview ORDER BY interview_date DESC", nativeQuery = true)
+    @Query(value = "SELECT * FROM interview ORDER BY interview_date ASC", nativeQuery = true)
     List<Interview> findAllOrderByInterviewDateDesc();
 
     Optional<Interview> findTopByOrderByIdDesc();

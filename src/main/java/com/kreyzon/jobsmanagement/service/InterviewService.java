@@ -53,4 +53,58 @@ public class InterviewService {
 
         return new GenericResponse(Constant.RESULT_OK, "Interview added", interview);
     }
+
+    public GenericResponse updateInterview(InterviewDto interviewDto) {
+        GenericResponse response = new GenericResponse();
+
+        // Find the existing interview by ID
+        Interview existingInterview = interviewRepository.findById(interviewDto.getId())
+                .orElseThrow(() -> new IllegalArgumentException("Interview not found."));
+
+        // Update the interview information
+        existingInterview.setInterviewType(interviewDto.getInterviewType());
+        existingInterview.setPlatform(interviewDto.getPlatform());
+        existingInterview.setInterviewDate(Utils.convertStringToLocalDateTime(interviewDto.getInterviewDate()));
+        existingInterview.setNotes(interviewDto.getNotes());
+        existingInterview.setEndClient(interviewDto.getEndClient());
+        existingInterview.setResult(interviewDto.getResult());
+
+        // Find the recruiter by ID
+        Recruiter recruiter = recruiterRepository.findById(interviewDto.getIdRecruiter())
+                .orElseThrow(() -> new IllegalArgumentException("Recruiter not found."));
+
+        existingInterview.setRecruiter(recruiter);
+
+        // Save the updated interview
+        try {
+            interviewRepository.save(existingInterview);
+            response.setResult(Constant.RESULT_OK);
+            response.setMessage("Interview updated successfully.");
+        } catch (Exception e) {
+            response.setResult(Constant.RESULT_NOK);
+            response.setMessage("Failed to update interview.");
+        }
+
+        return response;
+    }
+
+    public GenericResponse deleteInterview(Integer id) {
+        GenericResponse response = new GenericResponse();
+
+        // Find the interview by ID
+        Interview interview = interviewRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Interview not found."));
+
+        // Perform the delete operation
+        try {
+            interviewRepository.delete(interview);
+            response.setResult(Constant.RESULT_OK);
+            response.setMessage("Interview deleted successfully.");
+        } catch (Exception e) {
+            response.setResult(Constant.RESULT_NOK);
+            response.setMessage("Failed to delete interview.");
+        }
+
+        return response;
+    }
 }

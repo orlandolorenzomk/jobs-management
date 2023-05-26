@@ -10,37 +10,62 @@
     <br>
 
     <!-- Update Recruiter Form -->
-    <form action="/recruiter/update" method="post">
-        <input type="hidden" name="id" th:value="${recruiterDto.id}">
+    <form action="/interview/update" method="post">
         <div class="form-group">
-            <label for="firstName">First Name:</label>
-            <input type="text" class="form-control" id="firstName" name="firstName" th:value="${recruiterDto.firstName}" required>
+            <label for="endClient">End Client</label>
+            <select class="form-control" id="endClient" name="endClient">
+                <option value="">-- Select End Client --</option>
+                <option th:each="recruiter : ${recruiterList}"
+                        th:value="${recruiter.companyName}"
+                        th:text="${recruiter.companyName}"></option>
+            </select>
+            <small class="text-muted">Leave blank to enter a custom option</small>
+            <input type="text" class="form-control mt-2" id="sendClient" name="endClient">
+        </div>
+
+        <div class="form-group">
+            <label for="idRecruiter">Recruiter:</label>
+            <select class="form-control" id="idRecruiter" name="idRecruiter">
+                <option value="">-- Select Recruiter --</option>
+                <option th:each="recruiter : ${recruiterList}"
+                        th:value="${recruiter.id}"
+                        th:text="${recruiter.fullName}"></option>
+            </select>
         </div>
         <div class="form-group">
-            <label for="lastName">Last Name:</label>
-            <input type="text" class="form-control" id="lastName" name="lastName" th:value="${recruiterDto.lastName}" required>
+            <label for="interviewType">Interview Type:</label>
+            <select class="form-control" id="interviewType" name="interviewType">
+                <option value="">-- Select Interview Type --</option>
+                <option value="Cognitive Interview">Cognitive Interview</option>
+                <option value="Technical Interview">Technical Interview</option>
+            </select>
         </div>
         <div class="form-group">
-            <label for="email">Email:</label>
-            <input type="email" class="form-control" id="email" name="email" th:value="${recruiterDto.email}" required>
+            <label for="platform">Platform:</label>
+            <select class="form-control" id="platform" name="platform">
+                <option value="">-- Select Platform --</option>
+                <option value="Google Meet">Google Meet</option>
+                <option value="Microsoft Teams">Microsoft Teams</option>
+            </select>
         </div>
         <div class="form-group">
-            <label for="companyName">Company Name:</label>
-            <input type="text" class="form-control" id="companyName" name="companyName" th:value="${recruiterDto.companyName}" required>
+            <label for="interviewDate">Date</label>
+            <input type="date" class="form-control" id="interviewDate" name="interviewDate">
         </div>
         <div class="form-group">
-            <label for="recruiterLevel">Recruiter Level:</label>
-            <input type="text" class="form-control" id="recruiterLevel" name="recruiterLevel">
+            <label for="result">Result:</label>
+            <select class="form-control" id="result" name="result">
+                <option value="">-- Select Result --</option>
+                <option value="Negative">Negative</option>
+                <option value="Positive">Positive</option>
+            </select>
         </div>
-        <div class="form-group">
-            <label for="previousRecruiterReference">Previous Recruiter Reference</label>
-            <input type="text" class="form-control" id="previousRecruiterReference" name="previousRecruiterReference">
+        <div class="notes">
+            <label for="notes">Notes:</label>
+            <textarea class="form-control" id="notes" name="notes" rows="5" required></textarea>
         </div>
-        <div class="form-group">
-            <label for="linkedinProfileUrl">LinkedIn Profile URL:</label>
-            <input type="text" class="form-control" id="linkedinProfileUrl" name="linkedinProfileUrl" th:value="${recruiterDto.linkedinProfileUrl}" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Update</button>
+        <br>
+        <button type="submit" class="btn btn-primary">Add</button>
     </form>
 </div>
 

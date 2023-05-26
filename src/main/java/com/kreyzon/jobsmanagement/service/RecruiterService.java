@@ -7,9 +7,11 @@ import com.kreyzon.jobsmanagement.repository.RecruiterRepository;
 import com.kreyzon.jobsmanagement.response.GenericResponse;
 import com.kreyzon.jobsmanagement.utils.Constant;
 import com.kreyzon.jobsmanagement.utils.IdUtils;
+import com.kreyzon.jobsmanagement.utils.Utils;
 import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.util.NumberUtils;
 
 import java.util.List;
 import java.util.Optional;
@@ -37,17 +39,23 @@ public class RecruiterService {
                 .companyName(recruiterDto.getCompanyName())
                 .linkedinProfileUrl(recruiterDto.getLinkedinProfileUrl())
                 .recruiterLevel(recruiterDto.getRecruiterLevel())
+                .requestedDailyRate(recruiterDto.getRequestedDailyRate())
                 .deleted(false)
                 .build();
 
-        if (recruiterDto.getPreviousRecruiterReferenceId() != null && recruiterDto.getPreviousRecruiterReferenceId() > 0) {
-            Optional<Recruiter> previousRecruiterOptional = recruiterRepository.findById(recruiterDto.getPreviousRecruiterReferenceId());
-            if (previousRecruiterOptional.isEmpty())
-                return new GenericResponse(Constant.RESULT_NOK, "Previous recruiter doesn't exist", recruiterDto);
+        if (Utils.isNumeric(recruiterDto.getPreviousRecruiterReferenceId())) {
+            Integer previousRecruiterReferenceId = Integer.valueOf(recruiterDto.getPreviousRecruiterReferenceId());
 
-            Recruiter previousRecruiter = previousRecruiterOptional.get();
-            recruiter.setPreviousRecruiterReferenceId(recruiterDto.getPreviousRecruiterReferenceId());
-            recruiter.setPreviousRecruiterReferenceFullName(previousRecruiter.getFullName());
+            if (recruiterDto.getPreviousRecruiterReferenceId() != null && previousRecruiterReferenceId > 0) {
+                Optional<Recruiter> previousRecruiterOptional = recruiterRepository.findById(previousRecruiterReferenceId);
+                if (previousRecruiterOptional.isEmpty())
+                    return new GenericResponse(Constant.RESULT_NOK, "Previous recruiter doesn't exist", recruiterDto);
+
+                Recruiter previousRecruiter = previousRecruiterOptional.get();
+                recruiter.setPreviousRecruiterReferenceId(previousRecruiterReferenceId);
+                recruiter.setPreviousRecruiterReferenceFullName(previousRecruiter.getFullName());
+                recruiter.setRequestedDailyRate(previousRecruiter.getRequestedDailyRate());
+            }
         }
 
         recruiterRepository.save(recruiter);
@@ -76,19 +84,24 @@ public class RecruiterService {
         // Update the recruiter information
         existingRecruiter.setFirstName(recruiterDto.getFirstName());
         existingRecruiter.setLastName(recruiterDto.getLastName());
-        existingRecruiter.setFullName(recruiterDto.getFullName());
+        existingRecruiter.setFullName(recruiterDto.getFirstName() + " " + recruiterDto.getLastName());
         existingRecruiter.setEmail(recruiterDto.getEmail());
         existingRecruiter.setCompanyName(recruiterDto.getCompanyName());
         existingRecruiter.setLinkedinProfileUrl(recruiterDto.getLinkedinProfileUrl());
+        existingRecruiter.setRequestedDailyRate(recruiterDto.getRequestedDailyRate());
 
-        if (recruiterDto.getPreviousRecruiterReferenceId() != null && recruiterDto.getPreviousRecruiterReferenceId() > 0) {
-            Optional<Recruiter> previousRecruiterOptional = recruiterRepository.findById(recruiterDto.getPreviousRecruiterReferenceId());
-            if (previousRecruiterOptional.isEmpty())
-                return new GenericResponse(Constant.RESULT_NOK, "Previous recruiter doesn't exist", recruiterDto);
+        if (Utils.isNumeric(recruiterDto.getPreviousRecruiterReferenceId())) {
+            Integer previousRecruiterReferenceId = Integer.valueOf(recruiterDto.getPreviousRecruiterReferenceId());
+            if (recruiterDto.getPreviousRecruiterReferenceId() != null && previousRecruiterReferenceId > 0) {
+                Optional<Recruiter> previousRecruiterOptional = recruiterRepository.findById(previousRecruiterReferenceId);
+                if (previousRecruiterOptional.isEmpty())
+                    return new GenericResponse(Constant.RESULT_NOK, "Previous recruiter doesn't exist", recruiterDto);
 
-            Recruiter previousRecruiter = previousRecruiterOptional.get();
-            existingRecruiter.setPreviousRecruiterReferenceId(recruiterDto.getPreviousRecruiterReferenceId());
-            existingRecruiter.setPreviousRecruiterReferenceFullName(previousRecruiter.getPreviousRecruiterReferenceFullName());
+                Recruiter previousRecruiter = previousRecruiterOptional.get();
+                existingRecruiter.setPreviousRecruiterReferenceId(previousRecruiterReferenceId);
+                existingRecruiter.setPreviousRecruiterReferenceFullName(previousRecruiter.getPreviousRecruiterReferenceFullName());
+                existingRecruiter.setRequestedDailyRate(previousRecruiter.getRequestedDailyRate());
+            }
         }
 
         // Save the updated recruiter
@@ -130,6 +143,4 @@ public class RecruiterService {
 
         return response;
     }
-
-
 }

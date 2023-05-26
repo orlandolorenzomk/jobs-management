@@ -16,4 +16,5 @@ public class InterviewDto implements Serializable {
     private final String notes;
     private final String endClient;
     private final Integer idRecruiter;
+    private String result;
 }

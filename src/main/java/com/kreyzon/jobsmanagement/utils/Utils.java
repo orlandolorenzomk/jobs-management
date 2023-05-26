@@ -19,4 +19,16 @@ public class Utils {
         try { date = formatter.parse(dateStr); } catch (Exception e) {}
         return LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
     }
+
+    public static boolean isNumeric(String strNum) {
+        if (strNum == null) {
+            return false;
+        }
+        try {
+            double d = Double.parseDouble(strNum);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
+    }
 }

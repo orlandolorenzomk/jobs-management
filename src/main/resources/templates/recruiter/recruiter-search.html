@@ -20,6 +20,7 @@
             <th scope="col">Level</th>
             <th scope="col">Reference</th>
             <th scope="col">LinkedIn Profile</th>
+            <th scope="col">Daily Rate</th>
             <th scope="col"></th>
             <th scope="col"></th>
         </tr>
@@ -36,6 +37,7 @@
             <td>
                 <a th:href="${recruiter.linkedinProfileUrl}" target="_blank" th:text="${recruiter.linkedinProfileUrl}"></a>
             </td>
+            <td th:text="${recruiter.requestedDailyRate}"></td>
             <td>
                 <a th:href="@{/recruiter/update/{id}(id=${recruiter.id})}" class="btn btn-success">Update</a>
             </td>

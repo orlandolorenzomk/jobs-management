@@ -44,4 +44,6 @@ public class Recruiter {
     private Integer previousRecruiterReferenceId;
 
     private String previousRecruiterReferenceFullName;
+
+    private Double requestedDailyRate;
 }

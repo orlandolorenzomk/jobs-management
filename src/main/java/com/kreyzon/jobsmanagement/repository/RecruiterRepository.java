@@ -12,6 +12,6 @@ import java.util.Optional;
 public interface RecruiterRepository extends JpaRepository<Recruiter, Integer> {
     Optional<Recruiter> findTopByOrderByIdDesc();
 
-    @Query(value = "SELECT * FROM recruiter WHERE deleted IS FALSE", nativeQuery = true)
+    @Query(value = "SELECT * FROM recruiter WHERE deleted IS FALSE ORDER BY id_recruiter DESC", nativeQuery = true)
     List<Recruiter> findAllNonDeleted();
 }

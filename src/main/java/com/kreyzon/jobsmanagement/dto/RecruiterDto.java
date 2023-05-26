@@ -19,6 +19,7 @@ public class RecruiterDto implements Serializable {
     private final String companyName;
     private final String linkedinProfileUrl;
     private final String recruiterLevel;
-    private final Integer previousRecruiterReferenceId;
+    private final String previousRecruiterReferenceId;
     private final String previousRecruiterReferenceFullName;
+    private final Double requestedDailyRate;
 }

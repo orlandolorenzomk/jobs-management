@@ -16,8 +16,9 @@ public class DtoUtils {
                 .companyName(recruiter.getCompanyName())
                 .linkedinProfileUrl(recruiter.getLinkedinProfileUrl())
                 .recruiterLevel(recruiter.getRecruiterLevel())
-                .previousRecruiterReferenceId(recruiter.getPreviousRecruiterReferenceId())
+                .previousRecruiterReferenceId(String.valueOf(recruiter.getPreviousRecruiterReferenceId()))
                 .previousRecruiterReferenceFullName(recruiter.getPreviousRecruiterReferenceFullName())
+                .requestedDailyRate(recruiter.getRequestedDailyRate())
                 .build();
         return recruiterDto;
     }
